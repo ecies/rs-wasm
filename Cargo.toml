@@ -1,0 +1,29 @@
+[package]
+name = "ecies-wasm"
+version = "0.0.1"
+# docs
+authors = ["Weiliang Li <to.be.impressive@gmail.com>"]
+description = "A WASM bind for eciesrs"
+edition = "2018"
+license = "MIT"
+readme = "README.md"
+# links
+documentation = "https://www.npmjs.com/package/ecies-wasm/"
+homepage = "https://ecies.org/rs-wasm/"
+repository = "https://github.com/ecies/rs-wasm"
+
+[dependencies]
+ecies = {git = "https://github.com/ecies/rs.git", default-features = false, features = ["pure"]}
+
+# wasm
+js-sys = "0.3.46"
+wasm-bindgen = "0.2.69"
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[profile.release]
+lto = true

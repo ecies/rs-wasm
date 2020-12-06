@@ -1,0 +1,37 @@
+name: Publish wasm
+
+on:
+  release:
+    types: [created]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  publish:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 14
+        registry-url: 'https://registry.npmjs.org'
+    - name: Check versions
+      run: rustc --version; node --version; npm --version; cargo generate-lockfile
+    - name: Cache cargo folder
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          ~/.cargo/bin
+          target
+        key: ${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
+    - name: Install wasm pack
+      run: cargo install --git https://github.com/rustwasm/wasm-pack.git || true
+    - name: Build
+      run: wasm-pack build
+    - name: Publish npm package
+      run: cd pkg && npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -5,7 +5,7 @@
 [![CI](https://github.com/ecies/rs-wasm/workflows/Build%20wasm/badge.svg)](https://github.com/ecies/rs-wasm/actions)
 [![CD](https://github.com/ecies/rs-wasm/workflows/Publish%20wasm/badge.svg)](https://github.com/ecies/rs-wasm/actions)
 
-A WASM bind for [eciesrs](https://github.com/ecies/rs).
+A WASM binding for [eciesrs](https://github.com/ecies/rs).
 
 ## Install
 

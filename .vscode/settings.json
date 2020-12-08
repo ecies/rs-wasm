@@ -1,11 +1,5 @@
 {
-    "spellright.language": [
-        "en"
-    ],
-    "spellright.documentTypes": [
-        "markdown",
-        "latex",
-        "plaintext",
-        "toml"
-    ]
+  "spellright.language": ["en"],
+  "spellright.documentTypes": ["markdown", "latex", "plaintext", "toml"],
+  "rust-analyzer.cargo.target": "wasm32-unknown-unknown"
 }

@@ -1,6 +1,6 @@
 [package]
 name = "ecies-wasm"
-version = "0.1.0-rc1"
+version = "0.1.0-rc2"
 # docs
 authors = ["Weiliang Li <to.be.impressive@gmail.com>"]
 description = "A WASM bind for eciesrs"
@@ -20,7 +20,7 @@ homepage = "https://ecies.org/rs-wasm/"
 repository = "https://github.com/ecies/rs-wasm"
 
 [dependencies]
-ecies = {git = "https://github.com/ecies/rs.git", default-features = false, features = ["pure"]}
+ecies = {git = "https://github.com/ecies/rs.git", rev = "3562bd1", default-features = false, features = ["pure"]}
 
 # wasm
 js-sys = "0.3.46"

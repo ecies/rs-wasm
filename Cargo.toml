@@ -1,10 +1,17 @@
 [package]
 name = "ecies-wasm"
-version = "0.0.1"
+version = "0.1.0"
 # docs
 authors = ["Weiliang Li <to.be.impressive@gmail.com>"]
 description = "A WASM bind for eciesrs"
 edition = "2018"
+keywords = [
+  "secp256k1",
+  "crypto",
+  "elliptic curves",
+  "ecies",
+  "cryptocurrency",
+]
 license = "MIT"
 readme = "README.md"
 # links

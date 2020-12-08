@@ -1,12 +1,11 @@
 # ecies-wasm
 
+[![License](https://img.shields.io/github/license/ecies/rs-wasm.svg)](https://github.com/ecies/rs-wasm)
+[![NPM Package](https://img.shields.io/npm/v/ecies-wasm.svg)](https://www.npmjs.com/package/ecies-wasm)
+[![CI](https://github.com/ecies/rs-wasm/workflows/Build%20wasm/badge.svg)](https://github.com/ecies/rs-wasm/actions)
+[![CD](https://github.com/ecies/rs-wasm/workflows/Publish%20wasm/badge.svg)](https://github.com/ecies/rs-wasm/actions)
+
 A WASM bind for [eciesrs](https://github.com/ecies/rs).
-
-## Build
-
-```bash
-wasm-pack build
-```
 
 ## Install
 
@@ -36,3 +35,17 @@ console.log(data_decrypted);
 ```
 
 Check [this example](https://github.com/ecies/wasm-example) for more details.
+
+## API
+
+```js
+function encrypt(receiver_pub: Uint8Array, msg: Uint8Array): Uint8Array | undefined;
+function decrypt(receiver_sec: Uint8Array, msg: Uint8Array): Uint8Array | undefined;
+```
+
+## Build and test
+
+```bash
+wasm-pack build
+wasm-pack test --node
+```

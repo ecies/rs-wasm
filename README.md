@@ -38,7 +38,7 @@ Check [this example](https://github.com/ecies/wasm-example) for more details.
 
 ## API
 
-```js
+```ts
 function encrypt(receiver_pub: Uint8Array, msg: Uint8Array): Uint8Array | undefined;
 function decrypt(receiver_sec: Uint8Array, msg: Uint8Array): Uint8Array | undefined;
 ```

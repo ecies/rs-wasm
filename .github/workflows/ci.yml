@@ -18,8 +18,14 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14
-      - name: Check versions
-        run: rustc --version; node --version; npm --version; cargo generate-lockfile
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+          target: wasm32-unknown-unknown
+      - uses: actions-rs/cargo@v1
+        with:
+          command: generate-lockfile
       - name: Cache cargo folder
         uses: actions/cache@v2
         with:

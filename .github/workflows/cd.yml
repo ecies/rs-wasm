@@ -2,7 +2,7 @@ name: Publish wasm
 
 on:
   release:
-    types: [created]
+    types: [published]
 
 env:
   CARGO_TERM_COLOR: always
@@ -16,10 +16,15 @@ jobs:
         with:
           node-version: 14
           registry-url: "https://registry.npmjs.org"
-      - name: Check versions
-        run: rustc --version; node --version; npm --version; cargo generate-lockfile
-      - name: Cache cargo folder
-        uses: actions/cache@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+          target: wasm32-unknown-unknown
+      - uses: actions-rs/cargo@v1
+        with:
+          command: generate-lockfile
+      - uses: actions/cache@v2
         with:
           path: |
             ~/.cargo/registry
@@ -27,10 +32,13 @@ jobs:
             ~/.cargo/bin
             target
           key: ${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
+
       - name: Install wasm pack
         run: cargo install --git https://github.com/rustwasm/wasm-pack.git || true
+
       - name: Build
         run: wasm-pack build
+
       - name: Publish npm package
         run: cd pkg && npm publish
         env:

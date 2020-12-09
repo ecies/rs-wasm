@@ -1,6 +1,6 @@
 [package]
 name = "ecies-wasm"
-version = "0.1.0"
+version = "0.1.1"
 # docs
 authors = ["Weiliang Li <to.be.impressive@gmail.com>"]
 description = "A WASM binding for eciesrs"

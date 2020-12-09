@@ -26,8 +26,7 @@ jobs:
       - uses: actions-rs/cargo@v1
         with:
           command: generate-lockfile
-      - name: Cache cargo folder
-        uses: actions/cache@v2
+      - uses: actions/cache@v2
         with:
           path: |
             ~/.cargo/registry
@@ -35,11 +34,15 @@ jobs:
             ~/.cargo/bin
             target
           key: ${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
+
       - name: Install wasm pack # To fix bug: https://github.com/rustwasm/wasm-pack/issues/837
         run: cargo install --git https://github.com/rustwasm/wasm-pack.git || true
+
       - name: Build
         run: wasm-pack build
+
       - name: Run tests
         run: wasm-pack test --node
+
       - name: Check npm package
         run: cd pkg && npm publish --dry-run

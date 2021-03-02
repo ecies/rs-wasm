@@ -2,8 +2,7 @@
 
 [![License](https://img.shields.io/github/license/ecies/rs-wasm.svg)](https://github.com/ecies/rs-wasm)
 [![NPM Package](https://img.shields.io/npm/v/ecies-wasm.svg)](https://www.npmjs.com/package/ecies-wasm)
-[![CI](https://github.com/ecies/rs-wasm/workflows/Build%20wasm/badge.svg)](https://github.com/ecies/rs-wasm/actions)
-[![CD](https://github.com/ecies/rs-wasm/workflows/Publish%20wasm/badge.svg)](https://github.com/ecies/rs-wasm/actions)
+[![CI](https://img.shields.io/github/workflow/status/ecies/rs-wasm/Build%20wasm)](https://github.com/ecies/rs-wasm/actions)
 
 A WASM binding for [eciesrs](https://github.com/ecies/rs).
 
@@ -26,7 +25,7 @@ const decrypted = ecies.decrypt(sk, encrypted);
 alert("decrypted: " + decrypted);
 ```
 
-Check [this example](https://github.com/ecies/wasm-example) for more details.
+Check [this example](https://github.com/ecies/wasm-example) for how to use it in browsers.
 
 ## API
 

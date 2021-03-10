@@ -20,7 +20,7 @@ homepage = "https://ecies.org/rs-wasm/"
 repository = "https://github.com/ecies/rs-wasm"
 
 [dependencies]
-ecies = {version = "0.2.0", default-features = false, features = ["pure"]}
+ecies = {version = "0.2.1", default-features = false, features = ["pure"]}
 
 # wasm
 js-sys = "0.3.46"

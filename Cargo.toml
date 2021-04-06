@@ -20,14 +20,14 @@ homepage = "https://ecies.org/rs-wasm/"
 repository = "https://github.com/ecies/rs-wasm"
 
 [dependencies]
-ecies = {version = "0.2.0", default-features = false, features = ["pure"]}
+ecies = {version = "0.2.1", default-features = false, features = ["pure"]}
 
 # wasm
-js-sys = "0.3.46"
-wasm-bindgen = "0.2.69"
+js-sys = "0.3.50"
+wasm-bindgen = "0.2.73"
 
 [dev-dependencies]
-wasm-bindgen-test = "0.3.19"
+wasm-bindgen-test = "0.3.23"
 
 [lib]
 crate-type = ["cdylib", "rlib"]

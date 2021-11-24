@@ -1,10 +1,10 @@
 [package]
 name = "ecies-wasm"
-version = "0.1.1"
+version = "0.1.2"
 # docs
 authors = ["Weiliang Li <to.be.impressive@gmail.com>"]
 description = "A WASM binding for eciesrs"
-edition = "2018"
+edition = "2021"
 keywords = [
   "secp256k1",
   "crypto",
@@ -14,20 +14,21 @@ keywords = [
 ]
 license = "MIT"
 readme = "README.md"
+
 # links
 documentation = "https://www.npmjs.com/package/ecies-wasm/"
 homepage = "https://ecies.org/rs-wasm/"
 repository = "https://github.com/ecies/rs-wasm"
 
 [dependencies]
-ecies = {version = "0.2.1", default-features = false, features = ["pure"]}
+ecies = {version = "0.2.2", default-features = false, features = ["pure"]}
 
 # wasm
-js-sys = "0.3.50"
-wasm-bindgen = "0.2.73"
+js-sys = "0.3.55"
+wasm-bindgen = "0.2.78"
 
 [dev-dependencies]
-wasm-bindgen-test = "0.3.23"
+wasm-bindgen-test = "0.3.28"
 
 [lib]
 crate-type = ["cdylib", "rlib"]

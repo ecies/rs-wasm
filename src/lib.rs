@@ -2,14 +2,15 @@ use ecies::{
     decrypt as _decrypt, encrypt as _encrypt, utils::generate_keypair as _generate_keypair,
 };
 use js_sys::{Array, Uint8Array};
-use wasm_bindgen::prelude::*;
+use wasm_bindgen::prelude::{wasm_bindgen, JsError};
 
+/// Generate a `(SecretKey, PublicKey)` pair
+#[allow(non_snake_case)]
 #[wasm_bindgen]
-pub fn generate_keypair() -> Array {
+pub fn generateKeypair() -> Array {
     let (sk, pk) = _generate_keypair();
-    let (sk, pk) = (sk.serialize(), pk.serialize_compressed());
-
-    let (sk, pk) = (Uint8Array::from(&sk[..]), Uint8Array::from(&pk[..]));
+    let (sk, pk) = (&sk.serialize()[..], &pk.serialize_compressed()[..]);
+    let (sk, pk) = (Uint8Array::from(sk), Uint8Array::from(pk));
 
     let ret = Array::new();
     ret.push(&sk);
@@ -17,53 +18,61 @@ pub fn generate_keypair() -> Array {
     ret
 }
 
+/// Encrypt a message by a public key
 #[wasm_bindgen]
-pub fn encrypt(receiver_pub: &[u8], msg: &[u8]) -> Option<Uint8Array> {
-    // TODO: handle error
-    _encrypt(receiver_pub, msg)
+pub fn encrypt(pk: &[u8], msg: &[u8]) -> Result<Uint8Array, JsError> {
+    _encrypt(pk, msg)
         .map(|v| Uint8Array::from(v.as_slice()))
-        .ok()
+        .map_err(|e| JsError::new(&e.to_string()))
 }
 
+/// Decrypt a message by a secret key
 #[wasm_bindgen]
-pub fn decrypt(receiver_sec: &[u8], msg: &[u8]) -> Option<Uint8Array> {
-    // TODO: handle error
-    _decrypt(receiver_sec, msg)
+pub fn decrypt(sk: &[u8], msg: &[u8]) -> Result<Uint8Array, JsError> {
+    _decrypt(sk, msg)
         .map(|v| Uint8Array::from(v.as_slice()))
-        .ok()
+        .map_err(|e| JsError::new(&e.to_string()))
 }
 
 #[cfg(all(test, target_arch = "wasm32"))]
 mod tests {
-    use wasm_bindgen_test::*;
+    use js_sys::Uint8Array;
 
-    use super::*;
+    use wasm_bindgen::JsValue;
+    use wasm_bindgen_test::wasm_bindgen_test;
 
-    const MSG: &str = "helloworld";
+    use super::{_generate_keypair, decrypt, encrypt, generateKeypair};
 
-    fn test_enc_dec(sk: &[u8], pk: &[u8]) {
-        let msg = MSG.as_bytes();
-        let encrypted = encrypt(pk, msg).unwrap().to_vec();
-        assert_eq!(msg, decrypt(sk, &encrypted).unwrap().to_vec().as_slice());
+    const MSG: &str = "hello-world🌎";
+
+    fn __enc_dec(sk: &[u8], pk: &[u8], msg: &[u8]) {
+        let encrypted = encrypt(pk, msg).ok().unwrap().to_vec();
+        assert_eq!(
+            msg,
+            decrypt(sk, &encrypted).ok().unwrap().to_vec().as_slice()
+        );
     }
 
     #[wasm_bindgen_test]
     fn test_rust() {
         let (sk, pk) = _generate_keypair();
-        let (sk, pk) = (&sk.serialize(), &pk.serialize());
-        test_enc_dec(sk, pk);
+        let (sk, pk) = (&sk.serialize(), &pk.serialize_compressed());
+        __enc_dec(sk, pk, MSG.as_bytes());
     }
 
     #[wasm_bindgen_test]
     fn test_wasm() {
-        let data = "😀😀😀😀".as_bytes();
-        let data_js = Uint8Array::from(&data[..]);
+        let pair = generateKeypair();
+        let sk = Uint8Array::from(pair.get(0)).to_vec();
+        let pk = Uint8Array::from(pair.get(1)).to_vec();
+        let msg = Uint8Array::from(MSG.as_bytes()).to_vec();
 
-        let pair = generate_keypair();
-        let (sk, pk) = (Uint8Array::from(pair.get(0)), Uint8Array::from(pair.get(1)));
+        __enc_dec(&sk, &pk, &msg);
+    }
 
-        let encrypted = encrypt(&pk.to_vec(), data).unwrap();
-        let decrypted = decrypt(&sk.to_vec(), &encrypted.to_vec()).unwrap();
-        assert_eq!(data_js.to_vec(), decrypted.to_vec());
+    #[wasm_bindgen_test]
+    fn test_wasm_error() {
+        let pk = Uint8Array::new(&JsValue::from(33)).to_vec();
+        assert!(encrypt(&pk, MSG.as_bytes()).is_err());
     }
 }

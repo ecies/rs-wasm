@@ -14,10 +14,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
@@ -26,7 +26,7 @@ jobs:
       - uses: actions-rs/cargo@v1
         with:
           command: generate-lockfile
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: |
             ~/.cargo/registry
@@ -35,11 +35,11 @@ jobs:
             target
           key: ${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
 
-      - name: Install wasm pack # To fix bug: https://github.com/rustwasm/wasm-pack/issues/837
-        run: cargo install --git https://github.com/rustwasm/wasm-pack.git || true
+      - name: Install wasm pack
+        run: cargo install wasm-pack || true
 
       - name: Build
-        run: wasm-pack build
+        run: wasm-pack build --target web
 
       - name: Run tests
         run: wasm-pack test --node

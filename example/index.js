@@ -1,18 +1,26 @@
 // need to build with `wasm-pack build --target web`
-import init, * as ecies from "../pkg/ecies_wasm";
+// import init, * as ecies from "../pkg/ecies_wasm";
+// check vite.config.js as well
+import init, * as ecies from "ecies-wasm";
 
 init();
 
-const data = Uint8Array.from([1, 2, 3, 4]);
+const encoder = new TextEncoder();
+const data = encoder.encode("hello ecies🔒");
 
 function checkOk() {
   const [sk, pk] = ecies.generateKeypair();
 
   const encrypted = ecies.encrypt(pk, data);
   const decrypted = ecies.decrypt(sk, encrypted);
-  alert(`decrypted: ${decrypted}`);
+
+  const decoder = new TextDecoder();
+  alert(`decrypted: ${decoder.decode(decrypted)}`);
+
   if (decrypted.toString("hex") === data.toString("hex")) {
     alert("call wasm encrypt decrypt ok");
+  } else {
+    alert("call wasm encrypt decrypt failed");
   }
 }
 

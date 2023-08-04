@@ -19,7 +19,8 @@ import init, * as ecies from "ecies-wasm";
 
 init(); // if built with vite without plugin
 
-const data = Uint8Array.from([1, 2, 3, 4]);
+const encoder = new TextEncoder();
+const data = encoder.encode("hello ecies🔒");
 
 const [sk, pk] = ecies.generateKeypair();
 const encrypted = ecies.encrypt(pk, data);

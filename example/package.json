@@ -2,19 +2,21 @@
   "name": "ecies-wasm-example",
   "version": "0.1.0",
   "author": "Weiliang Li <to.be.impressive@gmail.com>",
-  "description": "ecies-wasm in browser",
+  "description": "ecies-wasm example in browser",
   "license": "MIT",
   "main": "index.js",
   "type": "module",
   "repository": {
-    "url": "https://github.com/ecies/rs"
+    "url": "https://github.com/ecies/rs-wasm"
   },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
-  "dependencies": {},
+  "dependencies": {
+    "ecies-wasm": "^0.2.0"
+  },
   "devDependencies": {
     "vite": "^4.4.4"
   }

@@ -4,15 +4,15 @@ This example shows how to use `ecies-wasm` with [vite](https://vitejs.dev/).
 
 ## Install
 
-`yarn install`
+`pnpm install`
 
 ## Run dev server
 
-`yarn dev`
+`pnpm dev`
 
 ## Build and preview
 
-`yarn build && yarn preview`
+`pnpm build && pnpm preview`
 
 ## Build local wasm package (optional)
 

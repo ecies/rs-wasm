@@ -12,29 +12,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
       - uses: actions/setup-node@v3
         with:
           node-version: 20
           registry-url: "https://registry.npmjs.org"
-      - uses: actions-rs/toolchain@v1
+
+      - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: stable
-          override: true
           target: wasm32-unknown-unknown
-      - uses: actions-rs/cargo@v1
-        with:
-          command: generate-lockfile
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cargo/registry
-            ~/.cargo/git
-            ~/.cargo/bin
-            target
-          key: ${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
+          components: rustfmt, clippy
 
-      - name: Install wasm pack
-        run: cargo install wasm-pack || true
+      - uses: taiki-e/install-action@wasm-pack
+
+      - run: cargo generate-lockfile
+
+      - uses: Swatinem/rust-cache@v2
 
       - name: Build
         run: wasm-pack build --target web

@@ -4,6 +4,7 @@
 
 - Bump dependencies
 - Revamp type for typescript
+- Revamp example
 
 ## 0.2.0
 

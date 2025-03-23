@@ -1,52 +1,62 @@
 // need to build with `wasm-pack build --target web`
-// import init, * as ecies from "../pkg/ecies_wasm";
-// check vite.config.js as well
+// check vite.config.ts as well
 import init, * as ecies from "ecies-wasm";
+import "./style.css";
+import { bytesToHex } from "./utils";
 
-init();
+let sk, pk;
+
+init().then(() => {
+  [sk, pk] = ecies.generateKeypair();
+});
+
 
 const encoder = new TextEncoder();
-const data = encoder.encode("hello ecies🔒");
+const decoder = new TextDecoder();
+const text = "hello ecies-wasm🔒";
 
-function checkOk() {
-  const [sk, pk] = ecies.generateKeypair();
+export function setup(encryptedElement, textElement, decryptedElement) {
+  let encrypted;
 
-  const encrypted = ecies.encrypt(pk, data);
-  const decrypted = ecies.decrypt(sk, encrypted);
+  encryptedElement.innerHTML = "click me to encrypt";
+  textElement.innerHTML = text;
+  decryptedElement.innerHTML = "click me to decrypt";
 
-  const decoder = new TextDecoder();
-  alert(`decrypted: ${decoder.decode(decrypted)}`);
+  const _encrypt = () => {
+    encrypted = ecies.encrypt(pk, encoder.encode(text));
+    encryptedElement.innerHTML = "encrypted:";
+    textElement.innerHTML = `<code>${bytesToHex(encrypted)}</code>`;
+    decryptedElement.innerHTML = "click me to decrypt";
+  };
 
-  if (decrypted.toString("hex") === data.toString("hex")) {
-    alert("call wasm encrypt decrypt ok");
-  } else {
-    alert("call wasm encrypt decrypt failed");
-  }
-}
-
-function checkError() {
-  const pk = Uint8Array.from([0]);
-  try {
-    ecies.encrypt(pk, data);
-  } catch (e) {
-    alert(e);
-  }
+  const _decrypt = () => {
+    encryptedElement.innerHTML = "click me to encrypt";
+    if (encrypted) {
+      const decrypted = decoder.decode(ecies.decrypt(sk, encrypted));
+      textElement.innerHTML = `${decrypted}`;
+      decryptedElement.innerHTML = "decrypted:";
+      encrypted = undefined;
+    } else {
+      textElement.innerHTML = "click encrypt button first";
+    }
+  };
+  encryptedElement.addEventListener("click", () => _encrypt());
+  decryptedElement.addEventListener("click", () => _decrypt());
 }
 
 document.querySelector("#app").innerHTML = `
-  <h1>WASM Test</h1>
-  <button id="ok">Check ok</button>
-  <button id="error">Check error</button>
+  <div>
+    <h1>Hello ecies-wasm!</h1>
+    <div class="card">
+      <button id="encrypted" type="button"></button>
+      <button id="decrypted" type="button"></button>
+    </div>
+    <p id="text"></p>
+  </div>
 `;
 
-document.getElementById("ok").addEventListener("click", () => {
-  checkOk();
-});
-document.getElementById("error").addEventListener("click", () => {
-  checkError();
-});
-
-window.addEventListener("error", (event) => {
-  // catch all other errors
-  console.error(event);
-});
+setup(
+  document.querySelector("#encrypted"),
+  document.querySelector("#text"),
+  document.querySelector("#decrypted")
+);

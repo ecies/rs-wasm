@@ -23,3 +23,11 @@ After `pkg` folder is generated, update `import` in `index.js` as:
 ```ts
 import init, * as ecies from "../pkg/ecies_wasm";
 ```
+
+Or update `package.json` as:
+
+```json
+  "dependencies": {
+    "ecies-wasm": "link:../pkg"
+  },
+```

@@ -19,15 +19,18 @@ npm install ecies-wasm
 ```js
 import init, * as ecies from "ecies-wasm";
 
-init(); // if built with vite without plugin
-
 const encoder = new TextEncoder();
-const data = encoder.encode("hello ecies🔒");
+const decoder = new TextDecoder();
 
-const [sk, pk] = ecies.generateKeypair();
-const encrypted = ecies.encrypt(pk, data);
-const decrypted = ecies.decrypt(sk, encrypted);
-alert("decrypted: " + decrypted);
+// if built with vite without plugin
+// can also run with bun/deno
+init().then(() => {
+    const [sk, pk] = ecies.generateKeypair();
+    const data = encoder.encode("hello ecies🔒");
+    const encrypted = ecies.encrypt(pk, data);
+    const decrypted = decoder.decode(ecies.decrypt(sk, encrypted));
+    console.log("decrypted: " + decrypted);
+});
 ```
 
 Check [the example](./example) for how to use it in browsers.

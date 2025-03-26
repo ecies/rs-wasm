@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.1
+
+- Bump dependencies
+- Revamp type for typescript
+
 ## 0.2.0
 
 - Reduce wasm size from 1.2MB to ~100KB by revamping the build process
@@ -9,6 +14,7 @@
 - Bump dependencies
 
 ## 0.1.2
+
 - Bump dependencies
 
 ## 0.1.1

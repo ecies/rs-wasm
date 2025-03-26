@@ -1,38 +1,34 @@
 [package]
 name = "ecies-wasm"
-version = "0.2.0"
+version = "0.2.1"
 # docs
 authors = ["Weiliang Li <to.be.impressive@gmail.com>"]
 description = "A WASM binding for eciesrs"
 edition = "2021"
-keywords = [
-  "secp256k1",
-  "crypto",
-  "ecc",
-  "ecies",
-  "cryptocurrency",
-]
+keywords = ["secp256k1", "crypto", "ecc", "ecies", "cryptography"]
 license = "MIT"
 readme = "README.md"
 
 # links
 documentation = "https://www.npmjs.com/package/ecies-wasm/"
 homepage = "https://ecies.org/rs-wasm/"
-repository = "https://github.com/ecies/rs-wasm"
+repository = "git+https://github.com/ecies/rs-wasm.git"
 
 [dependencies]
-ecies = {version = "0.2", default-features = false, features = ["pure"]}
-once_cell = {version = "1.18.0", default-features = false, features = ["std"]}
+ecies = { version = "0.2.9", default-features = false, features = ["aes-rust"] }
+once_cell = { version = "1.21.3", default-features = false, features = ["std"] }
 
 # specify "lazy-static-context" to reduce wasm size
-libsecp256k1 = {version = "0.7.1", default-features = false, features = ["lazy-static-context"]}
+libsecp256k1 = { version = "0.7.2", default-features = false, features = [
+  "lazy-static-context",
+] }
 
 # wasm
-js-sys = "0.3.64"
-wasm-bindgen = "0.2.87"
+js-sys = "0.3.77"
+wasm-bindgen = "0.2.100"
 
 [dev-dependencies]
-wasm-bindgen-test = "0.3.37"
+wasm-bindgen-test = "0.3.50"
 
 [lib]
 crate-type = ["cdylib", "rlib"]

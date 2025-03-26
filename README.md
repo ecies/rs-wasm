@@ -2,6 +2,8 @@
 
 [![License](https://img.shields.io/github/license/ecies/rs-wasm.svg)](https://github.com/ecies/rs-wasm)
 [![NPM Package](https://img.shields.io/npm/v/ecies-wasm.svg)](https://www.npmjs.com/package/ecies-wasm)
+[![NPM Downloads](https://img.shields.io/npm/dm/ecies-wasm)](https://npm-stat.link/ecies-wasm)
+[![Install size](https://packagephobia.com/badge?p=ecies-wasm)](https://packagephobia.com/result?p=ecies-wasm)
 [![CI](https://img.shields.io/github/actions/workflow/status/ecies/rs-wasm/ci.yml)](https://github.com/ecies/rs-wasm/actions)
 
 A WASM binding for [eciesrs](https://github.com/ecies/rs).
@@ -33,7 +35,7 @@ Check [the example](./example) for how to use it in browsers.
 ## API
 
 ```ts
-export function generateKeypair(): Array<Uint8Array>; // [sk, pk]
+export function generateKeypair(): Uint8Array[]; // [sk, pk]
 export function encrypt(pk: Uint8Array, msg: Uint8Array): Uint8Array;
 export function decrypt(sk: Uint8Array, msg: Uint8Array): Uint8Array;
 ```
@@ -42,6 +44,7 @@ export function decrypt(sk: Uint8Array, msg: Uint8Array): Uint8Array;
 
 ```bash
 wasm-pack build
+wasm-pack build --target web
 wasm-pack test --node
 ```
 

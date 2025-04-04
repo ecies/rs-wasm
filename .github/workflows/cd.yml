@@ -10,13 +10,17 @@ env:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@v4
-
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
-          registry-url: "https://registry.npmjs.org"
+          node-version: 22
 
       - uses: dtolnay/rust-toolchain@master
         with:
@@ -37,3 +41,4 @@ jobs:
         run: cd pkg && npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true

@@ -16,3 +16,5 @@ Cargo.lock
 # js stuff
 node_modules/
 dist/
+
+pnpm-lock.yaml
